@@ -3,12 +3,8 @@ var url = require('url');
 var crypto = require("crypto");
 
 module.exports = function (context, fncReq) {
-
     var urlInfo = url.parse(fncReq.endpoint, true);
-
     var sasToken = generateSasToken(urlInfo.host + urlInfo.path, fncReq.sharedAccessKey, fncReq.policyName, 5);
-    context.log(sasToken);
-
     var data = JSON.stringify(fncReq.data);
 
     var options = {
@@ -47,7 +43,7 @@ module.exports = function (context, fncReq) {
     hubReq.end();
 };
 
-
+// https://docs.microsoft.com/ja-jp/azure/iot-hub/iot-hub-devguide-security#security-tokens
 var generateSasToken = function(resourceUri, signingKey, policyName, expiresInMins) {
     resourceUri = encodeURIComponent(resourceUri);
 
